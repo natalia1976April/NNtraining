@@ -45,8 +45,8 @@ namespace addressbook_web_tests
             OpenHomePage();
             Login(new AccountData("admin", "secret"));
             AddContact();
-            //FillContactForm("Natalia", "Kolpakova");
             ContactData contact = new ContactData("Natalia", "Kolpakova");
+            FillContactForm(contact);
             Submit();
             GotoHomePage();
             Logout();
