@@ -34,7 +34,7 @@ namespace addressbook_web_tests
             }
             catch (Exception)
             {
-                // Ignore errors if unable to close the browser
+                // Ignore errors if unable to close the browser.
             }
             Assert.AreEqual("", verificationErrors.ToString());
         }
