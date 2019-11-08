@@ -59,22 +59,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountData.cs" />
-    <Compile Include="Circle.cs" />
-    <Compile Include="ContactData.cs" />
-    <Compile Include="Figure.cs" />
-    <Compile Include="GroupData.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="TestBase.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="model\AccountData.cs" />
+    <Compile Include="appManager\ApplicationManager.cs" />
+    <Compile Include="TestFugures\Circle.cs" />
+    <Compile Include="model\ContactData.cs" />
+    <Compile Include="appManager\ContactHelper.cs" />
+    <Compile Include="TestFugures\Figure.cs" />
+    <Compile Include="model\GroupData.cs" />
+    <Compile Include="appManager\GroupHelper.cs" />
+    <Compile Include="appManager\HelperBase.cs" />
+    <Compile Include="appManager\LoginHelper.cs" />
+    <Compile Include="appManager\NavigationHelper.cs" />
+    <Compile Include="TestFugures\Square.cs" />
+    <Compile Include="tests\TestBase.cs" />
+    <Compile Include="TestFugures\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GroupCreationTests.cs" />
-    <Compile Include="NewContact.cs" />
-    <Compile Include="GroupRemovalTest.cs" />
+    <Compile Include="tests\GroupCreationTests.cs" />
+    <Compile Include="tests\NewContact.cs" />
+    <Compile Include="tests\GroupRemovalTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -13,14 +13,14 @@ namespace addressbook_web_tests
         [Test]
         public void TheNewContactTest()
         {
-            GoToStartPage();
-            Login(new AccountData("admin", "secret"));
-            AddContact();
+            app.Navigator.GoToStartPage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.AddContact();
             ContactData contact = new ContactData("Natalia", "Kolpakova");
-            FillContactForm(contact);
-            SubmitContactCreation();
-            GotoHomePage();
-            Logout();
+            app.Contacts.FillContactForm(contact);
+            app.Contacts.SubmitContactCreation();
+            app.Navigator.GotoHomePage();
+            app.Auth.Logout();
         }
     }
 }
