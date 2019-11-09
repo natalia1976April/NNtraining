@@ -22,7 +22,7 @@ namespace addressbook_web_tests
         public void GoToStartPage()
         {
             driver.Navigate().GoToUrl(baseURL);
-                    
+                  
         }
 
         public void GoToGroupsPage()
