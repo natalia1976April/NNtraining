@@ -17,20 +17,28 @@ namespace addressbook_web_tests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
-        protected IWebDriver driver = new FirefoxDriver();
-        protected string baseURL = "http://localhost:8080/addressbook/";
+        protected IWebDriver driver;
+        protected string baseURL;
 
 
 
         public ApplicationManager()
         {
-           
 
-            loginHelper = new LoginHelper(driver);
-            navigator = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
-            
+            driver = new FirefoxDriver();
+            baseURL = "http://localhost:8080/addressbook/";
+            loginHelper = new LoginHelper(this);
+            navigator = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
+        }
+
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
         }
 
         public void Stop()
@@ -45,18 +53,7 @@ namespace addressbook_web_tests
             }
         }
 
-       // public void SetupTest()
-        //{
-        //    driver = new FirefoxDriver();
-        //    baseURL = "http://localhost:8080/addressbook/";
-           
-       //     loginHelper = new LoginHelper(driver);
-        //    navigator = new NavigationHelper(driver, baseURL);
-        //    groupHelper = new GroupHelper(driver);
-        //    contactHelper = new ContactHelper(driver);
-
-       // }
-
+       
         public LoginHelper Auth
         {
             get

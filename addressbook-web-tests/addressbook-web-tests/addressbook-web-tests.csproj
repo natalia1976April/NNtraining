@@ -59,6 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="tests\ContactModificationTests.cs" />
+    <Compile Include="tests\ContactRemovalTests.cs" />
+    <Compile Include="tests\GroupModificationTests.cs" />
     <Compile Include="model\AccountData.cs" />
     <Compile Include="appManager\ApplicationManager.cs" />
     <Compile Include="TestFugures\Circle.cs" />
@@ -76,7 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\GroupCreationTests.cs" />
     <Compile Include="tests\NewContact.cs" />
-    <Compile Include="tests\GroupRemovalTest.cs" />
+    <Compile Include="tests\GroupRemovalTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

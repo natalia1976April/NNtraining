@@ -13,18 +13,24 @@ namespace addressbook_web_tests
         [Test]
         public void GroupCreationTestMethod()
         {
-            app.Navigator.GoToStartPage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-            app.Navigator.GoToGroupsPage();
-            app.Groups.InitGroupCreation();
             GroupData group = new GroupData("test1");
             group.Header = "header";
             group.Footer = "footer";
-            app.Groups.FillGroupForm(group);
-            app.Groups.SubmitGroupCreation();
-            //ReturnsToGroupsPage();
+
+            app.Groups.Create(group);
             app.Navigator.GoToGroupsPage();
             app.Auth.Logout();
+        }
+
+        [Test]
+        public void EmptyGroupCreationTestMethod()
+        {
+            GroupData group = new GroupData("");
+            group.Header = "";
+            group.Footer = "";
+
+            app.Groups.Create(group);
+
         }
     }
 }
