@@ -29,10 +29,10 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public ContactHelper Modify(ContactData newContactData)
+        public ContactHelper Modify(int v, ContactData newContactData)
         {
             manager.Navigator.GoToHomePage();
-            InitContactModification();
+            InitContactModification(v);
             FillContactForm(newContactData);
             SubmitContactModification();
             manager.Navigator.GoToHomePage();
@@ -77,10 +77,11 @@ namespace addressbook_web_tests
         }
 
 
-        public ContactHelper InitContactModification()
+        public ContactHelper InitContactModification(int index)
         {
-                    driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
-                    return this;
+            //driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
+            return this;
         }
 
         public ContactHelper SubmitContactModification()

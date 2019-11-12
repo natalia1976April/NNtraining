@@ -15,7 +15,7 @@ namespace addressbook_web_tests
         {
             ContactData newContactData = new ContactData("FN2", "LN2");
 
-            app.Contacts.Modify(newContactData);
+            app.Contacts.Modify(1, newContactData);
         }
     }
 }
