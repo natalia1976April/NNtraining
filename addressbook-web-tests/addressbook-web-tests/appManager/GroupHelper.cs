@@ -12,7 +12,7 @@ namespace addressbook_web_tests
 {
     public class GroupHelper : HelperBase
     {
-
+      
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -31,23 +31,62 @@ namespace addressbook_web_tests
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(v);
-            InitGroupModification();
-            FillGroupForm(newData);
-            SubmitGroupModification();
-            manager.Navigator.GoToGroupsPage();
-            return this;
-        }
 
+            // if a group present???
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectGroup(v);
+                InitGroupModification();
+                FillGroupForm(newData);
+                SubmitGroupModification();
+                manager.Navigator.GoToGroupsPage();
+                return this;
+            }
+            else
+            {
+                //add a group
+                InitGroupCreation();
+                GroupData newgroup = new GroupData("aaa");
+                FillGroupForm(newgroup);
+                SubmitGroupCreation();
+
+                manager.Navigator.GoToGroupsPage();
+                SelectGroup(v);
+                InitGroupModification();
+                FillGroupForm(newData);
+                SubmitGroupModification();
+                manager.Navigator.GoToGroupsPage();
+                return this;
+            }
+
+        }
 
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
-            //   SelectGroup(1);
-            SelectGroup(v);
-            RemoveGroup();
-            manager.Navigator.GoToGroupsPage();
-            return this;
+
+            // if a group present???
+            if (IsElementPresent(By.Name("selected[]")))
+            { 
+                SelectGroup(v);
+                RemoveGroup();
+                manager.Navigator.GoToGroupsPage();
+                return this;
+            }
+            else
+            {
+                //add a group
+                InitGroupCreation();
+                GroupData newgroup = new GroupData("aaa1");
+                FillGroupForm(newgroup);
+                SubmitGroupCreation();
+
+                manager.Navigator.GoToGroupsPage();
+                SelectGroup(v);
+                RemoveGroup();
+                manager.Navigator.GoToGroupsPage();
+                return this;
+            }
         }
 
         public GroupHelper InitGroupCreation()
@@ -76,17 +115,19 @@ namespace addressbook_web_tests
 
         public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            Type(By.Name("group_name"), group.Name);
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
+
+            //driver.FindElement(By.Name("group_header")).Click();
+            //driver.FindElement(By.Name("group_header")).Clear();
+            //driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
+            //driver.FindElement(By.Name("group_footer")).Click();
+            //driver.FindElement(By.Name("group_footer")).Clear();
+            //driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
             return this;
         }
+
 
         public GroupHelper SubmitGroupModification()
         {

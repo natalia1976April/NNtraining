@@ -21,19 +21,37 @@ namespace addressbook_web_tests
 
         public void GoToStartPage()
         {
+            if (driver.Url == baseURL
+                && IsElementPresent(By.Name("Login")))
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL);
                   
         }
 
         public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "group.php"
+                && IsElementPresent(By.Name ("new")))
+            {
+                return;
+            }
+
             driver.FindElement(By.LinkText("groups")).Click();
         }
 
 
         public void GoToHomePage()
         {
-            driver.FindElement(By.LinkText("home")).Click();
+            //driver.FindElement(By.LinkText("home")).Click();
+
+            if (driver.Url == baseURL
+                && IsElementPresent(By.Name("Send e-Mail")))
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(baseURL);
         }
 
     }

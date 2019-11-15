@@ -12,6 +12,7 @@ using OpenQA.Selenium.Support.UI;
 namespace addressbook_web_tests
 {
     public class ContactHelper : HelperBase
+
     {
         private bool acceptNextAlert;
 
@@ -32,34 +33,79 @@ namespace addressbook_web_tests
         public ContactHelper Modify(int v, ContactData newContactData)
         {
             manager.Navigator.GoToHomePage();
-            InitContactModification(v);
-            FillContactForm(newContactData);
-            SubmitContactModification();
-            manager.Navigator.GoToHomePage();
-            return this;
+            
+            // if a contact present???
+            if (IsElementPresent(By.Name("selected[]")))
+           {
+                InitContactModification(v);
+                FillContactForm(newContactData);
+                SubmitContactModification();
+                manager.Navigator.GoToHomePage();
+                return this;
+            }
+            else
+            {
+                // adding a contact
+                AddContact();
+                ContactData contactnew = new ContactData("xxx", "zzz");
+                FillContactForm(contactnew);
+                SubmitContactCreation();
+
+                manager.Navigator.GoToHomePage();
+                InitContactModification(v);
+                FillContactForm(newContactData);
+                SubmitContactModification();
+                manager.Navigator.GoToHomePage();
+                return this;
+            }
+
         }
 
         public ContactHelper Remove(int v)
         {
             manager.Navigator.GoToHomePage();
-            SelectContact(v);
-            RemoveContact();
-            ConfirmDeletition();
-            manager.Navigator.GoToHomePage();
-            return this;
+
+            // if Contact present???
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectContact(v);
+                RemoveContact();
+                ConfirmDeletition();
+                manager.Navigator.GoToHomePage();
+                return this;
+            }
+            else
+            {
+                // adding a contact
+                AddContact();
+                ContactData contactnew = new ContactData("aaa", "bbb");
+                FillContactForm(contactnew);
+                SubmitContactCreation();
+
+                manager.Navigator.GoToHomePage();
+                SelectContact(v);
+                RemoveContact();
+                ConfirmDeletition();
+                manager.Navigator.GoToHomePage();
+                return this;
+
+            }
        }
 
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
+            Type(By.Name("firstname"), contact.FirstName);
+            Type(By.Name("lastname"), contact.LastName);
+
+            //driver.FindElement(By.Name("firstname")).Click();
+            //driver.FindElement(By.Name("firstname")).Click();
+            //driver.FindElement(By.Name("firstname")).Clear();
+            //driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
+            //driver.FindElement(By.Name("lastname")).Click();
+            //driver.FindElement(By.Name("lastname")).Click();
+            //driver.FindElement(By.Name("lastname")).Clear();
+            //driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
             return this;
 
         }

@@ -11,11 +11,19 @@ namespace addressbook_web_tests
         private string name;
         private string header = "";
         private string footer = "";
+        private string v1;
+        private string v2;
 
         public GroupData(string name)
         {
             this.name = name;
           }
+
+        public GroupData(string name, string v1, string v2) : this(name)
+        {
+            this.v1 = v1;
+            this.v2 = v2;
+        }
 
         public string Name
         {
