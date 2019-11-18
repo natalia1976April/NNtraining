@@ -20,6 +20,13 @@ namespace addressbook_web_tests
         {
         }
 
+        //is a contact present
+        public bool IsContactPresent()
+        {
+            manager.Navigator.GoToHomePage();
+            return IsElementPresent(By.Name("selected[]"));
+        }
+
 
         public ContactHelper Create(ContactData contact)
         {
@@ -35,29 +42,29 @@ namespace addressbook_web_tests
             manager.Navigator.GoToHomePage();
             
             // if a contact present???
-            if (IsElementPresent(By.Name("selected[]")))
-           {
+           // if (IsElementPresent(By.Name("selected[]")))
+          // {
                 InitContactModification(v);
                 FillContactForm(newContactData);
                 SubmitContactModification();
                 manager.Navigator.GoToHomePage();
                 return this;
-            }
-            else
-            {
+           // }
+            //else
+            //{
                 // adding a contact
-                AddContact();
-                ContactData contactnew = new ContactData("xxx", "zzz");
-                FillContactForm(contactnew);
-                SubmitContactCreation();
+             //   AddContact();
+            //    ContactData contactnew = new ContactData("xxx", "zzz");
+              //  FillContactForm(contactnew);
+              //  SubmitContactCreation();
 
-                manager.Navigator.GoToHomePage();
-                InitContactModification(v);
-                FillContactForm(newContactData);
-                SubmitContactModification();
-                manager.Navigator.GoToHomePage();
-                return this;
-            }
+             //   manager.Navigator.GoToHomePage();
+              //  InitContactModification(v);
+              //  FillContactForm(newContactData);
+              //  SubmitContactModification();
+              //  manager.Navigator.GoToHomePage();
+                //return this;
+           // }
 
         }
 
@@ -66,30 +73,30 @@ namespace addressbook_web_tests
             manager.Navigator.GoToHomePage();
 
             // if Contact present???
-            if (IsElementPresent(By.Name("selected[]")))
-            {
+           // if (IsElementPresent(By.Name("selected[]")))
+           // {
                 SelectContact(v);
                 RemoveContact();
                 ConfirmDeletition();
                 manager.Navigator.GoToHomePage();
                 return this;
-            }
-            else
-            {
+            //}
+           // else
+           // {
                 // adding a contact
-                AddContact();
-                ContactData contactnew = new ContactData("aaa", "bbb");
-                FillContactForm(contactnew);
-                SubmitContactCreation();
+              //  AddContact();
+             //   ContactData contactnew = new ContactData("aaa", "bbb");
+              //  FillContactForm(contactnew);
+              //  SubmitContactCreation();
 
-                manager.Navigator.GoToHomePage();
-                SelectContact(v);
-                RemoveContact();
-                ConfirmDeletition();
-                manager.Navigator.GoToHomePage();
-                return this;
+              //  manager.Navigator.GoToHomePage();
+              //  SelectContact(v);
+              //  RemoveContact();
+              //  ConfirmDeletition();
+              //  manager.Navigator.GoToHomePage();
+             //   return this;
 
-            }
+           // }
        }
 
 

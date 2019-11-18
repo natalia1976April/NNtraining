@@ -17,6 +17,13 @@ namespace addressbook_web_tests
         {
         }
 
+        // if group present???
+        public bool IsGroupPresent()
+        {
+            manager.Navigator.GoToGroupsPage();
+            return IsElementPresent(By.Name("selected[]"));
+        }
+
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -33,31 +40,31 @@ namespace addressbook_web_tests
             manager.Navigator.GoToGroupsPage();
 
             // if a group present???
-            if (IsElementPresent(By.Name("selected[]")))
-            {
+            //if (IsElementPresent(By.Name("selected[]")))
+           // {
                 SelectGroup(v);
                 InitGroupModification();
                 FillGroupForm(newData);
                 SubmitGroupModification();
                 manager.Navigator.GoToGroupsPage();
                 return this;
-            }
-            else
-            {
+          //  }
+           // else
+           // {
                 //add a group
-                InitGroupCreation();
-                GroupData newgroup = new GroupData("aaa");
-                FillGroupForm(newgroup);
-                SubmitGroupCreation();
+              //  InitGroupCreation();
+              //  GroupData newgroup = new GroupData("aaa");
+              //  FillGroupForm(newgroup);
+              //  SubmitGroupCreation();
 
-                manager.Navigator.GoToGroupsPage();
-                SelectGroup(v);
-                InitGroupModification();
-                FillGroupForm(newData);
-                SubmitGroupModification();
-                manager.Navigator.GoToGroupsPage();
-                return this;
-            }
+               // manager.Navigator.GoToGroupsPage();
+               // SelectGroup(v);
+               // InitGroupModification();
+               // FillGroupForm(newData);
+              //  SubmitGroupModification();
+              //  manager.Navigator.GoToGroupsPage();
+              //  return this;
+           // }
 
         }
 
@@ -66,27 +73,27 @@ namespace addressbook_web_tests
             manager.Navigator.GoToGroupsPage();
 
             // if a group present???
-            if (IsElementPresent(By.Name("selected[]")))
-            { 
+           // if (IsElementPresent(By.Name("selected[]")))
+            //{ 
                 SelectGroup(v);
                 RemoveGroup();
                 manager.Navigator.GoToGroupsPage();
                 return this;
-            }
-            else
-            {
+            //}
+           // else
+           // {
                 //add a group
-                InitGroupCreation();
-                GroupData newgroup = new GroupData("aaa1");
-                FillGroupForm(newgroup);
-                SubmitGroupCreation();
+             //   InitGroupCreation();
+             //   GroupData newgroup = new GroupData("aaa1");
+              //  FillGroupForm(newgroup);
+              //  SubmitGroupCreation();
 
-                manager.Navigator.GoToGroupsPage();
-                SelectGroup(v);
-                RemoveGroup();
-                manager.Navigator.GoToGroupsPage();
-                return this;
-            }
+              //  manager.Navigator.GoToGroupsPage();
+              //  SelectGroup(v);
+               // RemoveGroup();
+               // manager.Navigator.GoToGroupsPage();
+               // return this;
+            //}
         }
 
         public GroupHelper InitGroupCreation()

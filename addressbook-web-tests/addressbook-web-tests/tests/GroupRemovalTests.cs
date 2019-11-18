@@ -13,7 +13,22 @@ namespace addressbook_web_tests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Groups.Remove(1);
+            //if a group is present 
+            if (app.Groups.IsGroupPresent())
+            {
+                app.Groups.Remove(1);
+            }
+
+            else
+            {
+                GroupData group = new GroupData("test1");
+                group.Header = "header";
+                group.Footer = "footer";
+
+                app.Groups.Create(group);
+
+                app.Groups.Remove(1);
+            }
 
         }
     }

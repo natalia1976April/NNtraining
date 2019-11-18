@@ -14,7 +14,18 @@ namespace addressbook_web_tests
         [Test]
         public void ContactRemovalTest()
         {
-            app.Contacts.Remove(1);
+            //if a contact present
+            if (app.Contacts.IsContactPresent())
+            {
+                app.Contacts.Remove(1);
+            }
+            else
+            {
+                ContactData contact = new ContactData("sss", "ddd");
+                app.Contacts.Create(contact);
+
+                app.Contacts.Remove(1);
+            }
         }
 
     }
