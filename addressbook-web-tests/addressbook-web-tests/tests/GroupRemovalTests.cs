@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 
 namespace addressbook_web_tests
@@ -13,22 +14,23 @@ namespace addressbook_web_tests
         [Test]
         public void GroupRemovalTest()
         {
-            //if a group is present 
-            if (app.Groups.IsGroupPresent())
-            {
-                app.Groups.Remove(1);
-            }
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-            else
+            //if a group is present 
+            if (!app.Groups.IsGroupPresent())
             {
                 GroupData group = new GroupData("test1");
                 group.Header = "header";
                 group.Footer = "footer";
 
                 app.Groups.Create(group);
-
-                app.Groups.Remove(1);
             }
+                app.Groups.Remove(0);
+
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
 
         }
     }

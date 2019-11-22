@@ -13,22 +13,16 @@ namespace addressbook_web_tests
         [Test]
         public void ContactModificationTest()
         {
-            //if a contact present
-            if (app.Contacts.IsContactPresent())
+            //if a contact NOT present
+            if (!app.Contacts.IsContactPresent())
             {
-                ContactData newContactData = new ContactData("FN2", "LN2");
-                app.Contacts.Modify(1, newContactData);
+                ContactData contact = new ContactData("sss", "ddd");
+                app.Contacts.Create(contact);
             }
-
-            else
-            { 
-            ContactData contact = new ContactData("sss", "ddd");
-            app.Contacts.Create(contact);
 
             ContactData newContactData = new ContactData("FN2", "LN2");
             app.Contacts.Modify(1, newContactData);
 
-            }
         }
     }
 }

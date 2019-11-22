@@ -41,62 +41,22 @@ namespace addressbook_web_tests
         {
             manager.Navigator.GoToHomePage();
             
-            // if a contact present???
-           // if (IsElementPresent(By.Name("selected[]")))
-          // {
                 InitContactModification(v);
                 FillContactForm(newContactData);
                 SubmitContactModification();
                 manager.Navigator.GoToHomePage();
                 return this;
-           // }
-            //else
-            //{
-                // adding a contact
-             //   AddContact();
-            //    ContactData contactnew = new ContactData("xxx", "zzz");
-              //  FillContactForm(contactnew);
-              //  SubmitContactCreation();
-
-             //   manager.Navigator.GoToHomePage();
-              //  InitContactModification(v);
-              //  FillContactForm(newContactData);
-              //  SubmitContactModification();
-              //  manager.Navigator.GoToHomePage();
-                //return this;
-           // }
-
         }
 
         public ContactHelper Remove(int v)
         {
             manager.Navigator.GoToHomePage();
 
-            // if Contact present???
-           // if (IsElementPresent(By.Name("selected[]")))
-           // {
                 SelectContact(v);
                 RemoveContact();
                 ConfirmDeletition();
                 manager.Navigator.GoToHomePage();
                 return this;
-            //}
-           // else
-           // {
-                // adding a contact
-              //  AddContact();
-             //   ContactData contactnew = new ContactData("aaa", "bbb");
-              //  FillContactForm(contactnew);
-              //  SubmitContactCreation();
-
-              //  manager.Navigator.GoToHomePage();
-              //  SelectContact(v);
-              //  RemoveContact();
-              //  ConfirmDeletition();
-              //  manager.Navigator.GoToHomePage();
-             //   return this;
-
-           // }
        }
 
 
@@ -105,14 +65,6 @@ namespace addressbook_web_tests
             Type(By.Name("firstname"), contact.FirstName);
             Type(By.Name("lastname"), contact.LastName);
 
-            //driver.FindElement(By.Name("firstname")).Click();
-            //driver.FindElement(By.Name("firstname")).Click();
-            //driver.FindElement(By.Name("firstname")).Clear();
-            //driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            //driver.FindElement(By.Name("lastname")).Click();
-            //driver.FindElement(By.Name("lastname")).Click();
-            //driver.FindElement(By.Name("lastname")).Clear();
-            //driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
             return this;
 
         }
@@ -132,8 +84,7 @@ namespace addressbook_web_tests
 
         public ContactHelper InitContactModification(int index)
         {
-            //driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
+             driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index+1) +"]")).Click();
             return this;
         }
 
@@ -182,10 +133,22 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
             return this;
 
         }
+
+ //       public List<ContactData> GetContactList()
+  //      {
+  //          manager.Navigator.GoToHomePage();
+   //         List<ContactData> contacts = new List<ContactData>();
+   //         ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+   //         foreach (IWebElement element in elements)
+   //         {
+    //            contacts.Add(new ContactData(element.Text));
+    //        }
+     //       return contacts;
+    //    }
 
     }
 }

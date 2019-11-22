@@ -82,6 +82,7 @@
     <Compile Include="tests\GroupCreationTests.cs" />
     <Compile Include="tests\NewContact.cs" />
     <Compile Include="tests\GroupRemovalTests.cs" />
+    <Compile Include="UnitTest2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

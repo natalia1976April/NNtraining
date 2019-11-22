@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 
+
 namespace addressbook_web_tests
 {
     [TestFixture]
@@ -14,31 +15,30 @@ namespace addressbook_web_tests
         [Test]
         public void GroupModificationTest()
         {
-            //if a group is present 
-          if (app.Groups.IsGroupPresent())
-                { 
-                GroupData newData = new GroupData("test2");
-                newData.Header = "header2";
-                newData.Footer = "footer2";
+            GroupData newData = new GroupData("test2");
+            newData.Header = "header2";
+            newData.Footer = "footer2";
 
-                app.Groups.Modify(1, newData);
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
+            //if a group is NOT present 
+            if (!app.Groups.IsGroupPresent())
+                {
+                    GroupData group = new GroupData("test1");
+                    group.Header = "header";
+                    group.Footer = "footer";
+
+                    app.Groups.Create(group);
                 }
-            else
-            {
-                GroupData group = new GroupData("test1");
-                group.Header = "header";
-                group.Footer = "footer";
 
-                app.Groups.Create(group);
+                app.Groups.Modify(0, newData);
 
-                GroupData newData = new GroupData("test2");
-                newData.Header = "header2";
-                newData.Footer = "footer2";
 
-                app.Groups.Modify(1, newData);
-            }
-
-            
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
 
         }
     }
