@@ -10,11 +10,11 @@ namespace addressbook_web_tests
     [TestFixture]
     public class ContactRemovalTests : AuthTestBase
     {
-  //      List<ContactData> oldContacts = app.Contacts.GetContactList();
-
         [Test]
         public void ContactRemovalTest()
         {
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
             //if a contact NOT present
             if (!app.Contacts.IsContactPresent())
             {
@@ -23,9 +23,10 @@ namespace addressbook_web_tests
             }
                 app.Contacts.Remove(0);
 
- //           List<ContactData> newContacts = app.Contacts.GetContactList();
- //           oldContacts.RemoveAt(0);
- //           Assert.AreEqual(oldContacts, newContacts);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            if (oldContacts.Count > 0)
+                oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
     }

@@ -138,17 +138,19 @@ namespace addressbook_web_tests
 
         }
 
- //       public List<ContactData> GetContactList()
-  //      {
-  //          manager.Navigator.GoToHomePage();
-   //         List<ContactData> contacts = new List<ContactData>();
-   //         ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-   //         foreach (IWebElement element in elements)
-   //         {
-    //            contacts.Add(new ContactData(element.Text));
-    //        }
-     //       return contacts;
-    //    }
+        public List<ContactData> GetContactList()
+        {
+            manager.Navigator.GoToHomePage();
+            List<ContactData> contacts = new List<ContactData>();
+            var rows = driver.FindElements(By.CssSelector("#maintable tr[name=entry]"));
+            foreach(var row in rows)
+            {
+                var cells = row.FindElements(By.CssSelector("td"));
+                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
+            }
+
+            return contacts;
+        }
 
     }
 }

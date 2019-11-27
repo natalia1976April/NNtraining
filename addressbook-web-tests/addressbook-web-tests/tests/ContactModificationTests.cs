@@ -13,6 +13,8 @@ namespace addressbook_web_tests
         [Test]
         public void ContactModificationTest()
         {
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
             //if a contact NOT present
             if (!app.Contacts.IsContactPresent())
             {
@@ -21,7 +23,14 @@ namespace addressbook_web_tests
             }
 
             ContactData newContactData = new ContactData("FN2", "LN2");
-            app.Contacts.Modify(1, newContactData);
+            app.Contacts.Modify(0, newContactData);
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts[0].FirstName = newContactData.FirstName;
+            oldContacts[0].LastName = newContactData.LastName;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
 
         }
     }
