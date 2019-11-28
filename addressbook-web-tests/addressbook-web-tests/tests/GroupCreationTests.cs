@@ -21,14 +21,20 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             app.Groups.Create(group);
-//            app.Navigator.GoToGroupsPage();
-//           app.Auth.Logout();
+
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
+            GroupData toBeAdded = newGroups[0];
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData groups in oldGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeAdded.Id);
+            }
 
         }
 
@@ -43,11 +49,19 @@ namespace addressbook_web_tests
 
             app.Groups.Create(group);
 
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
+            GroupData toBeAdded = newGroups[0];
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData groups in oldGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeAdded.Id);
+            }
 
         }
 
@@ -61,15 +75,31 @@ namespace addressbook_web_tests
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
+            GroupData oldData = oldGroups[0];
+
             app.Groups.Create(group);
 
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
-            //Assert.AreEqual(oldGroups.Count, newGroups.Count);
-            //oldGroups.Add(group);
+
+            GroupData newData = newGroups[0];
+
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            // checks that group names are the same for old and new lists for elements with the same Ids
+            oldGroups[0].Name = oldData.Name;
+            newGroups[0].Name = newData.Name;
+
+            foreach (GroupData groups in newGroups)
+            {
+                if (newData.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, oldData.Name);
+                }
+            }
 
         }
     }

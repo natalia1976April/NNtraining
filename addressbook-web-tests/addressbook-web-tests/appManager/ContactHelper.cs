@@ -78,6 +78,7 @@ namespace addressbook_web_tests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            contactCash = null;
             return this;
         }
 
@@ -91,6 +92,7 @@ namespace addressbook_web_tests
         public ContactHelper SubmitContactModification()
         {
                    driver.FindElement(By.Name("update")).Click();
+                   contactCash = null;
                    return this;
         }
 
@@ -98,6 +100,7 @@ namespace addressbook_web_tests
         {
             acceptNextAlert = true;
             Assert.IsTrue(Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
+            contactCash = null;
             return this;
  
         }
@@ -138,18 +141,31 @@ namespace addressbook_web_tests
 
         }
 
+        private List<ContactData> contactCash = null;
+
         public List<ContactData> GetContactList()
         {
-            manager.Navigator.GoToHomePage();
-            List<ContactData> contacts = new List<ContactData>();
-            var rows = driver.FindElements(By.CssSelector("#maintable tr[name=entry]"));
-            foreach(var row in rows)
+            if (contactCash == null)
             {
-                var cells = row.FindElements(By.CssSelector("td"));
-                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
+                contactCash = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                List<ContactData> contacts = new List<ContactData>();
+                var rows = driver.FindElements(By.CssSelector("#maintable tr[name=entry]"));
+                foreach (var row in rows)
+                {
+                    var cells = row.FindElements(By.CssSelector("td"));
+                    contactCash.Add(new ContactData(cells[2].Text, cells[1].Text)
+                    {
+                         Id = row.FindElement(By.TagName("input")).GetAttribute("Id")
+                    });
+                }
             }
+            return new List<ContactData>(contactCash);
+        }
 
-            return contacts;
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("#maintable tr[name=entry]")).Count;
         }
 
     }
