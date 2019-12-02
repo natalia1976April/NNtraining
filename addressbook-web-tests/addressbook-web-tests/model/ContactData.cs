@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        private string allPhones;
+        private string allEMails;
 
         public ContactData(string firstname, string lastname)
         {
@@ -18,6 +21,68 @@ namespace addressbook_web_tests
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string Address { get; set; }
+
+        public string HomePhone { get; set; }
+
+        public string MobilePhone { get; set; }
+
+        public string WorkPhone { get; set; }
+
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                }
+            }
+            set
+            {
+              allPhones = value;
+            }
+        }
+
+        public string EMail { get; set; }
+
+        public string EMail2 { get; set; }
+
+        public string EMail3 { get; set; }
+
+        public string AllEMails
+        {
+            get
+            {
+                 if (allEMails != null)
+                {
+                    return allEMails;
+                }
+                else
+                {
+                    return (CleanUp(EMail) + CleanUp(EMail2) + CleanUp(EMail3)).Trim();
+                }
+            }
+            set
+            {
+                allEMails = value;
+            }
+        }
+
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
+            //    return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
 
         public string Id { get; set; }
 

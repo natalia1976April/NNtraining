@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="tests\ContactInformationTests.cs" />
     <Compile Include="tests\LoginTests.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
     <Compile Include="tests\ContactModificationTests.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="appManager\LoginHelper.cs" />
     <Compile Include="appManager\NavigationHelper.cs" />
     <Compile Include="TestFugures\Square.cs" />
+    <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="TestFugures\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

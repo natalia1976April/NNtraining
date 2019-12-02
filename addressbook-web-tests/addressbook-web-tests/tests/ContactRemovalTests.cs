@@ -36,7 +36,5 @@ namespace addressbook_web_tests
                 Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
             }
         }
-
-
 }
 }
