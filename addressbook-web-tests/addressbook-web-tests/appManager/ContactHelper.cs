@@ -180,12 +180,14 @@ namespace addressbook_web_tests
             string address = cells[3].Text;
             string allPhones = cells[5].Text;
             string allEMails = cells[4].Text;
+            string homepage = driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[10]/a/img")).GetAttribute("title");
 
             return new ContactData(firstName, lastName)
             {
                 Address = address,
                 AllPhones = allPhones,
-                AllEMails = allEMails
+                AllEMails = allEMails,
+                Homepage = homepage
 
             };
 
@@ -203,10 +205,12 @@ namespace addressbook_web_tests
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string secondaryPhone = driver.FindElement(By.Name("phone2")).GetAttribute("value");
 
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
 
             return new ContactData(firstName, lastName)
             {
@@ -214,10 +218,43 @@ namespace addressbook_web_tests
                 MobilePhone = mobilePhone,
                 HomePhone = homePhone,
                 WorkPhone = workPhone,
+                SecondaryPhone = secondaryPhone,
                 EMail = email,
                 EMail2 = email2,
-                EMail3 = email3
+                EMail3 = email3,
+                Homepage = "http://" + homepage
             };
+        }
+
+//???????????????????????????????????????????????????????????????????????????????????????????????????????
+        public ContactData getContactInformationFromContactDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            OpenDetailedContactInformation(index);
+
+            // ???????????????????????????????????????????
+
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].
+                      FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;
+            string allEMails = cells[4].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = allPhones,
+                AllEMails = allEMails
+
+            };
+        }
+
+        public ContactHelper OpenDetailedContactInformation(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
+            return this;
         }
 
         public int GetNumberOfSearcResults()

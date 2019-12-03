@@ -30,6 +30,8 @@ namespace addressbook_web_tests
 
         public string WorkPhone { get; set; }
 
+        public string SecondaryPhone { get; set; }
+
         public string AllPhones
         {
             get
@@ -40,7 +42,7 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(SecondaryPhone)).Trim();
                 }
             }
             set
@@ -48,6 +50,8 @@ namespace addressbook_web_tests
               allPhones = value;
             }
         }
+
+        public string Homepage { get; set; }
 
         public string EMail { get; set; }
 
