@@ -25,18 +25,17 @@ namespace addressbook_web_tests.tests
 
         }
 
- //       [Test]
- //       public void TestDetailedContactInformation()
- //       {
-  //          ContactData fromForm = app.Contacts.getContactInformationFromEditForm(0);
-  //          ContactData fromDetails = app.Contacts.getContactInformationFromContactDetails(0);
-
+        [Test]
+        public void TestDetailedContactInformation()
+        {
+            string s1 = app.Contacts.getContactInformationFromContactDetails(0);
+            string fromDetails = app.Contacts.CleanUpContactInfo(s1);
+            string fromForm = app.Contacts.getAllContactInformationFromEditForm(0);
+            
             //verification
-  //          Assert.AreEqual(fromForm, fromDetails);
-  //          Assert.AreEqual(fromForm.Address, fromDetails.Address);
-   //         Assert.AreEqual(fromForm.AllPhones, fromDetails.AllPhones);
-  //          Assert.AreEqual(fromForm.AllEMails, fromDetails.AllEMails);
-  //      }
+            Assert.AreEqual(fromForm, fromDetails);
+
+        }
 
     }
 }
