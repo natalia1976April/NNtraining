@@ -265,37 +265,96 @@ namespace addressbook_web_tests
             string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
             string company = driver.FindElement(By.Name("company")).GetAttribute("value");
             // birthday & anniversary 
-            string birthday = driver.FindElement(By.Name("bday")).GetAttribute("value") + "." +
-                driver.FindElement(By.Name("bmonth")).GetAttribute("value") +
-                driver.FindElement(By.Name("byear")).GetAttribute("value");
-            string anniversary = driver.FindElement(By.Name("aday")).GetAttribute("value") + "." +
-                driver.FindElement(By.Name("amonth")).FindElement(By.CssSelector("option[selected=selected]")).Text +
-                driver.FindElement(By.Name("ayear")).GetAttribute("value"); 
+            string birthday =
+                GetDateFormatted(driver.FindElement(By.Name("bday")).GetAttribute("value"),
+                driver.FindElement(By.Name("bmonth")).GetAttribute("value"),
+                driver.FindElement(By.Name("byear")).GetAttribute("value"));
+            //driver.FindElement(By.Name("bday")).GetAttribute("value") +
+            //driver.FindElement(By.Name("bmonth")).GetAttribute("value") +
+            ////driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string anniversary =
+                GetDateFormatted(driver.FindElement(By.Name("aday")).GetAttribute("value"),
+                driver.FindElement(By.Name("amonth")).FindElement(By.CssSelector("option[selected=selected]")).Text,
+                driver.FindElement(By.Name("ayear")).GetAttribute("value"));
+                //driver.FindElement(By.Name("aday")).GetAttribute("value") +"."+
+                //driver.FindElement(By.Name("amonth")).FindElement(By.CssSelector("option[selected=selected]")).Text +
+                //driver.FindElement(By.Name("ayear")).GetAttribute("value");
 
-            allInfo = firstName + middlename  + lastName + nickname + title + company + address +
-                        homePhone + mobilePhone + workPhone + fax +
-                        email + email2 + email3 + homepage  +
-                        birthday + anniversary + 
-                        address2 + 
-                        secondaryPhone + 
-                        notes;
+            string personInfo = ((String.IsNullOrEmpty(firstName.Trim()) ? String.Empty : $"{firstName} ") +
+                (String.IsNullOrEmpty(middlename.Trim()) ? String.Empty : $"{middlename} ") +
+                (String.IsNullOrEmpty(lastName.Trim()) ? String.Empty : $"{lastName}")).Trim();
+
+            allInfo = personInfo + 
+                Environment.NewLine +
+                (String.IsNullOrEmpty(nickname) ? String.Empty : $"{nickname}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(title) ? String.Empty : $"{title}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(company) ? String.Empty : $"{company}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(address) ? String.Empty : $"{address}{Environment.NewLine}") +
+                Environment.NewLine +
+                (String.IsNullOrEmpty(homePhone) ? String.Empty : $"H: {homePhone}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(mobilePhone) ? String.Empty : $"M: {mobilePhone}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(workPhone) ? String.Empty : $"W: {workPhone}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(fax) ? String.Empty : $"F: {fax}{Environment.NewLine}") +
+                Environment.NewLine +
+                (String.IsNullOrEmpty(email) ? String.Empty : $"{email}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(email2) ? String.Empty : $"{email2}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(email3) ? String.Empty : $"{email3}{Environment.NewLine}") +
+                $"Homepage:{Environment.NewLine}{homepage}{Environment.NewLine}" + 
+                Environment.NewLine +
+                (String.IsNullOrEmpty(birthday) ? String.Empty : $"Birthday {birthday}{Environment.NewLine}") +
+                (String.IsNullOrEmpty(anniversary) ? String.Empty : $"Anniversary {anniversary}{Environment.NewLine}") +
+                Environment.NewLine +
+                (String.IsNullOrEmpty(address2) ? String.Empty : $"{address2}{Environment.NewLine}") +
+                Environment.NewLine +
+                (String.IsNullOrEmpty(secondaryPhone) ? String.Empty : $"P: {secondaryPhone}{Environment.NewLine}")+
+                Environment.NewLine +
+                notes; 
+
+
+            //nickname + "\r\n" + 
+            //title + "\r\n" + 
+            //company + "\r\n" +
+            //address + "\r\n" + "\r\n" +
+            //"H: " + homePhone + "\r\n" +
+            //"M: " + mobilePhone + "\r\n" +
+            //"W: " + workPhone + "\r\n" +
+            //"F: " + fax + "\r\n" +
+            //email + "\r\n"+ 
+            //email2 + "\r\n" + 
+            //email3 + "\r\n" +
+            //"Homepage:" + "\r\n" +
+            //homepage  + "\r\n" +
+            //"Birthday" + birthday + "\r\n" +
+            //"Anniversary" + anniversary + "\r\n" +
+            //address2 + "\r\n" +
+            //"P: " + secondaryPhone + "\r\n" +
+            //notes;
 
             return allInfo;
         }
 
-        public string CleanUpContactInfo(string contactInfo)
+        private string GetDateFormatted(string day, string month, string year)
         {
-            if (contactInfo == null || contactInfo == "")
-            {
-                return "";
-            }
-
-            contactInfo = contactInfo.Replace("\r\n", "").Replace(" ", "").Replace("H:", "").
-                Replace("W:", "").Replace("M:", "").Replace("P:", "").Replace("F:", "").
-                Replace("Homepage:", "").Replace("Birthday", "").Replace("Anniversary", "");
-
-            return contactInfo;
+            var result = String.Empty;
+            result = result + (String.IsNullOrEmpty(day) || day.Equals("0") ? String.Empty : $"{day}. ");
+            result = result + (String.IsNullOrEmpty(month) || month.Equals("-") ? String.Empty : $"{month} ");
+            result = result + (String.IsNullOrEmpty(year) ? String.Empty : $"{year}");
+            return result;
         }
+
+ //       public string CleanUpContactInfo(string contactInfo)
+ //       {
+ //           if (contactInfo == null || contactInfo == "")
+  //          {
+  //              return "";
+   //         }
+
+  //          contactInfo = contactInfo.Replace("\r\n", "").Replace(" ", "").Replace("H:", "").
+  //              Replace("W:", "").Replace("M:", "").Replace("P:", "").Replace("F:", "").
+   //             Replace("Homepage:", "").Replace("Birthday", "").Replace("Anniversary", "");
+
+  //          return contactInfo;
+   //     }
 
 
         public ContactHelper OpenDetailedContactInformation(int index)

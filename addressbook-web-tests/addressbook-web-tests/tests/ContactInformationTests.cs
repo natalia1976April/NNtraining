@@ -28,8 +28,8 @@ namespace addressbook_web_tests.tests
         [Test]
         public void TestDetailedContactInformation()
         {
-            string s1 = app.Contacts.getContactInformationFromContactDetails(0);
-            string fromDetails = app.Contacts.CleanUpContactInfo(s1);
+           // string s1 = app.Contacts.getContactInformationFromContactDetails(0);
+            string fromDetails = app.Contacts.getContactInformationFromContactDetails(0);
             string fromForm = app.Contacts.getAllContactInformationFromEditForm(0);
             
             //verification
