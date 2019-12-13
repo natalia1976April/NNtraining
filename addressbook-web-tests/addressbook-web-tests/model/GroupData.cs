@@ -13,6 +13,11 @@ namespace addressbook_web_tests
         private string v1;
         private string v2;
 
+        //constructor for XML generator
+        public GroupData()
+        {
+        }
+
         public GroupData(string name)
         {
             Name = name;

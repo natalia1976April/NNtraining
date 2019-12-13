@@ -12,10 +12,18 @@ namespace addressbook_web_tests
         private string allPhones;
         private string allEMails;
 
+        public ContactData()
+        {
+        }
+
         public ContactData(string firstname, string lastname)
         {
             FirstName = firstname;
             LastName = lastname;
+        }
+
+        public ContactData(string v)
+        {
         }
 
         public string FirstName { get; set; }
