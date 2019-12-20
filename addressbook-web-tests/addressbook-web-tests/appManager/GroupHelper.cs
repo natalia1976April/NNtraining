@@ -47,6 +47,18 @@ namespace addressbook_web_tests
                 return this;
         }
 
+        public GroupHelper Modify(GroupData oldData, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            SelectGroup(oldData.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            manager.Navigator.GoToGroupsPage();
+            return this;
+        }
+
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
@@ -55,6 +67,16 @@ namespace addressbook_web_tests
                 RemoveGroup();
                 manager.Navigator.GoToGroupsPage();
                 return this;
+        }
+
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            SelectGroup(group.Id);
+            RemoveGroup();
+            manager.Navigator.GoToGroupsPage();
+            return this;
         }
 
         public GroupHelper InitGroupCreation()
@@ -74,6 +96,12 @@ namespace addressbook_web_tests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
 

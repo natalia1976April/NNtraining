@@ -13,6 +13,8 @@ namespace addressbook_web_tests
  
         protected ApplicationManager app;
 
+        public static bool PERFORM_LONG_UI_CHEKS = false;
+
         public static Random rnd = new Random();
 
         [SetUp]

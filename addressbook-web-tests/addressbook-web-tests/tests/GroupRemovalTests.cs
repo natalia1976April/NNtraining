@@ -9,14 +9,11 @@ using System.Collections.Generic;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupRemovalTests:AuthTestBase
+    public class GroupRemovalTests:GroupTestBase
     { 
         [Test]
         public void GroupRemovalTest()
         {
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData toBeRemoved = oldGroups[0];
-
             //if a group is present 
             if (!app.Groups.IsGroupPresent())
             {
@@ -27,11 +24,18 @@ namespace addressbook_web_tests
                 app.Groups.Create(group);
             }
 
-            app.Groups.Remove(0);
+            //List<GroupData> oldGroups = app.Groups.GetGroupList();
+
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeRemoved = oldGroups[0];
+
+            //app.Groups.Remove(0);
+            app.Groups.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            // List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             if (oldGroups.Count>0)
                 oldGroups.RemoveAt(0);
 

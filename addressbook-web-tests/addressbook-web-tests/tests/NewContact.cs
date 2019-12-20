@@ -15,7 +15,7 @@ using Microsoft.CSharp;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class NewContact:AuthTestBase
+    public class NewContact : ContactTestBase
     {
         public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -31,15 +31,17 @@ namespace addressbook_web_tests
         [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void TheNewContactTest(ContactData contact)
         {
-//            ContactData contact = new ContactData("Natalia", "Kolpakova");
+            //            ContactData contact = new ContactData("Natalia", "Kolpakova");
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            //List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             app.Contacts.Create(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            //List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
 
             ContactData toBeAdded = newContacts[0];
 

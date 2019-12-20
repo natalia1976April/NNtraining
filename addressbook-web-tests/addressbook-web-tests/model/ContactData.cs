@@ -4,16 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace addressbook_web_tests
 {
+    [Table(Name ="addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
         private string allEMails;
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
         public ContactData()
         {
+        }
+
+        public static List<ContactData> GetAll()
+        {
+             using (AddressBookDB db = new AddressBookDB())
+             {
+                 return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+             }
         }
 
         public ContactData(string firstname, string lastname)
@@ -26,8 +39,13 @@ namespace addressbook_web_tests
         {
         }
 
+        [Column(Name = "id"), PrimaryKey]
+        public string Id { get; set; }
+
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
 
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
 
         public string Address { get; set; }
@@ -95,9 +113,6 @@ namespace addressbook_web_tests
             return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
             //    return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
-
-        public string Id { get; set; }
-
 
         public bool Equals(ContactData other)
         {

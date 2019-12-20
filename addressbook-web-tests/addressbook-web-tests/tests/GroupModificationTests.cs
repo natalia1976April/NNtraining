@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupModificationTests: AuthTestBase
+    public class GroupModificationTests: GroupTestBase
     {
         [Test]
         public void GroupModificationTest()
@@ -18,9 +18,6 @@ namespace addressbook_web_tests
             GroupData newData = new GroupData("test2");
             newData.Header = "header2";
             newData.Footer = "footer2";
-
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData = oldGroups[0];
 
             //if a group is NOT present 
             if (!app.Groups.IsGroupPresent())
@@ -32,12 +29,19 @@ namespace addressbook_web_tests
                     app.Groups.Create(group);
                 }
 
-            app.Groups.Modify(0, newData);
+            //List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData oldData = oldGroups[0];
+
+            //app.Groups.Modify(0, newData);
+            app.Groups.Modify(oldData, newData);
 
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
-            oldGroups[0].Name = newData.Name;
+            //List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
+            //oldGroups[0].Name = newData.Name;
+            oldData.Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);

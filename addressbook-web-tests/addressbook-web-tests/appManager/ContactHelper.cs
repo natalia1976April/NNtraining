@@ -27,7 +27,6 @@ namespace addressbook_web_tests
             return IsElementPresent(By.Name("selected[]"));
         }
 
-
         public ContactHelper Create(ContactData contact)
         {
             AddContact();
@@ -48,6 +47,17 @@ namespace addressbook_web_tests
                 return this;
         }
 
+        public ContactHelper Modify(ContactData oldContactData, ContactData newContactData)
+        {
+            manager.Navigator.GoToHomePage();
+
+            InitContactModification(oldContactData.Id);
+            FillContactForm(newContactData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
         public ContactHelper Remove(int v)
         {
             manager.Navigator.GoToHomePage();
@@ -59,6 +69,17 @@ namespace addressbook_web_tests
                 return this;
        }
 
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.GoToHomePage();
+
+            SelectContactId(contact.Id);
+            RemoveContact();
+            ConfirmDeletition();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
 
         public ContactHelper FillContactForm(ContactData contact)
         {
@@ -66,7 +87,6 @@ namespace addressbook_web_tests
             Type(By.Name("lastname"), contact.LastName);
 
             return this;
-
         }
 
         public ContactHelper AddContact()
@@ -85,7 +105,13 @@ namespace addressbook_web_tests
 
         public ContactHelper InitContactModification(int index)
         {
-             driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index+1) +"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index+1) +"]")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(string id)
+        {
+            driver.FindElement(By.XPath("//a[@href='edit.php?id="+ id +"']")).Click();
             return this;
         }
 
@@ -139,6 +165,12 @@ namespace addressbook_web_tests
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
             return this;
 
+        }
+
+        public ContactHelper SelectContactId(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            return this;
         }
 
         private List<ContactData> contactCash = null;
@@ -372,5 +404,36 @@ namespace addressbook_web_tests
                 );
         }
 
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0 );
+
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        private void SelectContact(string ContactId)
+        {
+            driver.FindElement(By.Id(ContactId)).Click();
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
     }
 }

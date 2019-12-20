@@ -10,17 +10,19 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.CSharp;
+using System.Linq;
+using LinqToDB;
 
 
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTest : AuthTestBase
+    public class GroupCreationTest : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
             List<GroupData> groups = new List<GroupData>();
-            for (int i=0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 groups.Add(new GroupData(GenerateRandomString(30))
                 {
@@ -51,7 +53,7 @@ namespace addressbook_web_tests
         public static IEnumerable<GroupData> GroupDataFromXmlFile()
         {
             List<GroupData> groups = new List<GroupData>();
-            return (List<GroupData>) 
+            return (List<GroupData>)
                 new XmlSerializer(typeof(List<GroupData>)).Deserialize(new StreamReader(@"groups.xml"));
         }
 
@@ -63,12 +65,12 @@ namespace addressbook_web_tests
 
         public static IEnumerable<GroupData> GroupDataFromExcelFile()
         {
-            List < GroupData > groups = new List<GroupData>();
+            List<GroupData> groups = new List<GroupData>();
             Excel.Application app = new Excel.Application();
             Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
             Excel.Worksheet sheet = wb.ActiveSheet;
             Excel.Range range = sheet.UsedRange;
-            for (int i = 1; i <= range.Rows.Count; i++ )
+            for (int i = 1; i <= range.Rows.Count; i++)
             {
                 groups.Add(new GroupData()
                 {
@@ -86,17 +88,19 @@ namespace addressbook_web_tests
         [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTestMethod(GroupData group)
         {
-           // GroupData group = new GroupData("test1");
-           // group.Header = "header";
-           // group.Footer = "footer";
+            // GroupData group = new GroupData("test1");
+            // group.Header = "header";
+            // group.Footer = "footer";
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            // List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             app.Groups.Create(group);
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            // List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             GroupData toBeAdded = newGroups[0];
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -110,69 +114,94 @@ namespace addressbook_web_tests
 
         }
 
-     //   [Test]
-    //    public void EmptyGroupCreationTestMethod()
-    //    {
-    //        GroupData group = new GroupData("");
-    //        group.Header = "";
-    //        group.Footer = "";
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = app.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
 
-    //        List<GroupData> oldGroups = app.Groups.GetGroupList();
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+        }
 
-    //        app.Groups.Create(group);
+        [Test]
+        public void TestDBConnectivity1()
+        {
+            foreach (ContactData contact in GroupData.GetAll()[0].GetContacts())
+            {
+                System.Console.Out.WriteLine(contact);
+            }
 
-     //       Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+        }
 
-    //        List<GroupData> newGroups = app.Groups.GetGroupList();
-    //        GroupData toBeAdded = newGroups[0];
-    //        oldGroups.Add(group);
-    //        oldGroups.Sort();
-    //        newGroups.Sort();
-    //        Assert.AreEqual(oldGroups, newGroups);
 
-    //        foreach (GroupData groups in oldGroups)
-    //        {
-     //           Assert.AreNotEqual(group.Id, toBeAdded.Id);
-    //        }
+        //   [Test]
+        //    public void EmptyGroupCreationTestMethod()
+        //    {
+        //        GroupData group = new GroupData("");
+        //        group.Header = "";
+        //        group.Footer = "";
 
-    //    }
+        //        List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-    //    [Test]
-    //    public void BadGroupCreationTestMethod()
-    //    {
-            // this contact won't be added
-    //        GroupData group = new GroupData("a'a");
-    //        group.Header = "";
-    //        group.Footer = "";
+        //        app.Groups.Create(group);
 
-     //       List<GroupData> oldGroups = app.Groups.GetGroupList();
+        //       Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
-     //       GroupData oldData = oldGroups[0];
+        //        List<GroupData> newGroups = app.Groups.GetGroupList();
+        //        GroupData toBeAdded = newGroups[0];
+        //        oldGroups.Add(group);
+        //        oldGroups.Sort();
+        //        newGroups.Sort();
+        //        Assert.AreEqual(oldGroups, newGroups);
 
-    //        app.Groups.Create(group);
+        //        foreach (GroupData groups in oldGroups)
+        //        {
+        //           Assert.AreNotEqual(group.Id, toBeAdded.Id);
+        //        }
 
-    //        Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
+        //    }
 
-    //        List<GroupData> newGroups = app.Groups.GetGroupList();
+        //    [Test]
+        //    public void BadGroupCreationTestMethod()
+        //    {
+        // this contact won't be added
+        //        GroupData group = new GroupData("a'a");
+        //        group.Header = "";
+        //        group.Footer = "";
 
-    //        GroupData newData = newGroups[0];
+        //       List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-    //        oldGroups.Sort();
-    //        newGroups.Sort();
-    //        Assert.AreEqual(oldGroups, newGroups);
+        //       GroupData oldData = oldGroups[0];
 
-            // checks that group names are the same for old and new lists for elements with the same Ids
-     //       oldGroups[0].Name = oldData.Name;
-    //        newGroups[0].Name = newData.Name;
+        //        app.Groups.Create(group);
 
-   //         foreach (GroupData groups in newGroups)
-    //        {
-    //            if (newData.Id == oldData.Id)
-    //            {
-    //                Assert.AreEqual(newData.Name, oldData.Name);
-    //            }
-     //       }
-     //      }
+        //        Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
+
+        //        List<GroupData> newGroups = app.Groups.GetGroupList();
+
+        //        GroupData newData = newGroups[0];
+
+        //        oldGroups.Sort();
+        //        newGroups.Sort();
+        //        Assert.AreEqual(oldGroups, newGroups);
+
+        // checks that group names are the same for old and new lists for elements with the same Ids
+        //       oldGroups[0].Name = oldData.Name;
+        //        newGroups[0].Name = newData.Name;
+
+        //         foreach (GroupData groups in newGroups)
+        //        {
+        //            if (newData.Id == oldData.Id)
+        //            {
+        //                Assert.AreEqual(newData.Name, oldData.Name);
+        //            }
+        //       }
+        //      }
     }
 }
 
