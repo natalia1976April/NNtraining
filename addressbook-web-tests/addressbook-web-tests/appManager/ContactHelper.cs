@@ -221,7 +221,6 @@ namespace addressbook_web_tests
                 Homepage = homepage
 
             };
-
         }
 
         public ContactData getContactInformationFromEditForm(int index)
@@ -413,7 +412,43 @@ namespace addressbook_web_tests
             CommitAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0 );
+        }
 
+        public void AddAllContactsToGroup(GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectAllContact();
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void SelectAllContact()
+        {
+            driver.FindElement(By.Id("MassCB")).Click();
+        }
+
+        public void RemoveContactFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectGroupFilter(group.Name);
+            SelectContact(contact.Id);
+            RemoveContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        public void SelectGroupFilter(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
+        public void RemoveContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
         }
 
         private void CommitAddingContactToGroup()

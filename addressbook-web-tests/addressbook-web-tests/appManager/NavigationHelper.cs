@@ -53,6 +53,5 @@ namespace addressbook_web_tests
             }
             driver.Navigate().GoToUrl(baseURL);
         }
-
     }
 }

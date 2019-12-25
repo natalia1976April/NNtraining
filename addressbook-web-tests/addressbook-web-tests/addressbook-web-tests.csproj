@@ -102,6 +102,7 @@
     <Compile Include="appManager\LoginHelper.cs" />
     <Compile Include="appManager\NavigationHelper.cs" />
     <Compile Include="TestFugures\Square.cs" />
+    <Compile Include="tests\RemoveContactFromGroup.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="TestFugures\UnitTest1.cs" />
