@@ -13,6 +13,23 @@ namespace addressbook_web_tests
         [Test]
         public void TestRemovingContactFromGroup()
         {
+            //if a group is present 
+            if (!app.Groups.IsGroupPresent())
+            {
+                GroupData newGroup = new GroupData("test1");
+                newGroup.Header = "header";
+                newGroup.Footer = "footer";
+
+                app.Groups.Create(newGroup);
+            }
+
+            //if a contact NOT present
+            if (!app.Contacts.IsContactPresent())
+            {
+                ContactData newContact = new ContactData("sss", "ddd");
+                app.Contacts.Create(newContact);
+            }
+
             GroupData group = GroupData.GetAll()[0];
 
             app.Contacts.AddAllContactsToGroup(group);
