@@ -34,6 +34,11 @@ namespace addressbook_web_tests
             List < ContactData > oldList = group.GetContacts();
             ContactData contact = ContactData.GetAll().Except(oldList).First();
 
+            // ??? find a group where contact is not added
+            // ??? add the contact to this group
+            // ??? else create a new contact and add it to a group
+
+
             //actions
             app.Contacts.AddContactToGroup(contact, group);
 
