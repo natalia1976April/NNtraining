@@ -26,14 +26,20 @@ namespace mantis_tests
             client.mc_issue_add(account.Name, account.Password, issue);
         }
 
-        public void AddProject(string project)
+        public void AddProject(AccountData account, ProjectData pr)
         {
-
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData project = new Mantis.ProjectData();
+            project.name = pr.Name;
+           //project.name = "APIAPI"; 
+            client.mc_project_add(account.Name, account.Password, project);
         }
 
-        public List<string> GetProjectsListNames()
+        public List<string> GetProjectsListNamesAPI(AccountData account)
         {
-            return null;
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            var projectDataList = client.mc_projects_get_user_accessible(account.Name, account.Password);
+            return projectDataList.Select(p => p.name).ToList();
         }
     }
 }

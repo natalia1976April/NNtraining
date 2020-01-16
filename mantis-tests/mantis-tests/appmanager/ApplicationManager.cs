@@ -33,7 +33,7 @@ namespace mantis_tests
             driver = new FirefoxDriver();
             baseURL = "http://localhost:8080/mantisbt-2.23.0";
             Registration = new RegistrationHelper(this);
-            Ftp = new FtpHelper(this);
+            //Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
             Login = new LoginHelper(this);

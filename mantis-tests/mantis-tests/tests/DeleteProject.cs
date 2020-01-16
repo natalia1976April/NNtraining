@@ -17,7 +17,7 @@ namespace mantis_tests
             {
                 Name = "testuser14",
                 Password = "password",
-                Email = "testuser14@localhost.localdomain"
+                //Email = "testuser14@localhost.localdomain"
             };
 
             app.Login.Login(account);
@@ -25,9 +25,16 @@ namespace mantis_tests
             if (app.Project.GetProjectsListNames().Count == 0 )
             {
                 //string project = "testProjectNNXXXNEW";
-                string project = GenerateRandomString(40);
-                app.Project.AddProject(project);
 
+                string project = GenerateRandomString(40);
+
+                ProjectData projectAPI = new ProjectData
+                {
+                    Name = project
+                };
+
+                app.API.AddProject(account, projectAPI);
+                //app.Project.AddProject(project);
             }
 
             int oldProjectList = app.Project.GetProjectsListNames().Count;

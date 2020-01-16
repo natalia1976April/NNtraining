@@ -27,8 +27,17 @@ namespace mantis_tests
             string project = GenerateRandomString(40);
 
             app.Project.AddProject(project);
+
+            //ProjectData projectAPI = new ProjectData
+            //{
+            //    Name = project
+            //};
+
+            //app.API.AddProject(account, projectAPI);
     
-            int newProjectList = app.Project.GetProjectsListNames().Count;
+            //int newProjectList = app.Project.GetProjectsListNames().Count;
+
+            int newProjectList = app.API.GetProjectsListNamesAPI(account).Count;
 
             Assert.AreEqual(oldProjectList+1, newProjectList);
         }
