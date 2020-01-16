@@ -14,7 +14,7 @@ namespace mantis_tests
     {
             
         protected IWebDriver driver;
-        protected string baseURL;
+        public string baseURL;
 
         public RegistrationHelper Registration { get; set; }
         public FtpHelper Ftp { get; private set; }
