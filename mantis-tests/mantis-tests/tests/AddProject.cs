@@ -22,7 +22,9 @@ namespace mantis_tests
 
             app.Login.Login(account);
 
-            int oldProjectList = app.Project.GetProjectsListNames().Count;
+            //int oldProjectList = app.Project.GetProjectsListNames().Count;
+
+            int oldProjectList = app.API.GetProjectsListNamesAPI(account).Count;
 
             string project = GenerateRandomString(40);
 
