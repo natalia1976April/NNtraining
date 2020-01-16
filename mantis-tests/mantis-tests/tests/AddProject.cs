@@ -27,7 +27,7 @@ namespace mantis_tests
             string project = GenerateRandomString(40);
 
             app.Project.AddProject(project);
-
+    
             int newProjectList = app.Project.GetProjectsListNames().Count;
 
             Assert.AreEqual(oldProjectList+1, newProjectList);

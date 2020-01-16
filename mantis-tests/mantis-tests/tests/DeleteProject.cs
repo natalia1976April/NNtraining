@@ -24,8 +24,9 @@ namespace mantis_tests
 
             if (app.Project.GetProjectsListNames().Count == 0 )
             {
-                string project = "testProjectNNXXXNEW";
-                 app.Project.AddProject(project);
+                //string project = "testProjectNNXXXNEW";
+                string project = GenerateRandomString(40);
+                app.Project.AddProject(project);
 
             }
 
