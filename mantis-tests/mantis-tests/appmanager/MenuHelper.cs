@@ -18,12 +18,14 @@ namespace mantis_tests
 
         public void openManagementPage()
         {
-            driver.Navigate().GoToUrl("http://localhost:8080/mantisbt-2.23.0/manage_overview_page.php");        
+            driver.FindElement(By.CssSelector("i.menu-icon.fa.fa-gears")).Click();
+            //driver.Navigate().GoToUrl("http://localhost:8080/mantisbt-2.23.0/manage_overview_page.php");
         }
 
         public void openProjectManagmentPage()
         {
-            driver.Navigate().GoToUrl("http://localhost:8080/mantisbt-2.23.0/manage_proj_page.php");
+            driver.FindElement(By.LinkText("Управление проектами")).Click();
+            //driver.Navigate().GoToUrl("http://localhost:8080/mantisbt-2.23.0/manage_proj_page.php");
         }
 
         public void addProject()

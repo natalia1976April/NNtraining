@@ -24,7 +24,8 @@ namespace mantis_tests
 
             int oldProjectList = app.Project.GetProjectsListNames().Count;
 
-            string project = "testProjectNN16";
+            string project = GenerateRandomString(40);
+
             app.Project.AddProject(project);
 
             int newProjectList = app.Project.GetProjectsListNames().Count;
